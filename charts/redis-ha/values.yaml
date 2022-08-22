@@ -128,6 +128,11 @@ haproxy:
     # List of CIDR's allowed to connect to LoadBalancer
     # loadBalancerSourceRanges: []
 
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 1000
+    runAsNonRoot: true
+
   serviceAccountName: redis-sa
   serviceAccount:
     create: true
@@ -156,6 +161,10 @@ haproxy:
       # timeout: 10s
   init:
     resources: {}
+    securityContext:
+      runAsUser: 1000
+      fsGroup: 1000
+      runAsNonRoot: true
   timeout:
     connect: 4s
     server: 330s
@@ -164,10 +173,6 @@ haproxy:
   checkInterval: 1s
   checkFall: 1
 
-  securityContext:
-    runAsUser: 1000
-    fsGroup: 1000
-    runAsNonRoot: true
 
   ## Whether the haproxy pods should be forced to run on separate nodes.
   hardAntiAffinity: true

@@ -113,7 +113,7 @@ spec:
       imagePullSecrets: {{ toYaml .Values.haproxy.imagePullSecrets | nindent 8 }}
       {{- end }}
       securityContext:
-{{ toYaml .Values.haproxy.securityContext | indent 8 }}
+{{ toYaml .Values.haproxy.init.securityContext | indent 8 }}
       containers:
       - name: haproxy
         image: {{ .Values.haproxy.image.repository }}:{{ .Values.haproxy.image.tag }}
@@ -168,6 +168,10 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.haproxy.resources | indent 10 }}
+        {{- if .Values.haproxy.securityContext }}
+        securityContext:
+          {{ toYaml .Values.haproxy.resources | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - name: data
           mountPath: /usr/local/etc/haproxy
